@@ -1,6 +1,22 @@
 import streamlit as st
 import numpy as np
 import matplotlib.pyplot as plt
+import requests
+import time
+from threading import Thread
+
+
+def send_heartbeat():
+    while True:
+        try:
+            # 根据实际部署地址和端口替换 URL，appid 请换成你的应用 ID
+            requests.post("http://127.0.0.1:5000/api/apps/your_appid/heartbeat")
+        except Exception as e:
+            print("Heartbeat error:", e)
+        time.sleep(60)  # 每60秒发送一次心跳
+
+# 启动后台线程（daemon 模式）
+Thread(target=send_heartbeat, daemon=True).start()
 
 # 设置标题
 st.title("三次函数可视化工具")
