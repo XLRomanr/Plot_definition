@@ -5,18 +5,25 @@ import requests
 import time
 from threading import Thread
 
+import requests
+import streamlit as st
 
-def send_heartbeat():
-    while True:
-        try:
-            # 根据实际部署地址和端口替换 URL，appid 请换成你的应用 ID
-            requests.post("http://127.0.0.1:5000/api/apps/your_appid/heartbeat")
-        except Exception as e:
-            print("Heartbeat error:", e)
-        time.sleep(60)  # 每60秒发送一次心跳
+def update_access_time():
+    appid = "your_app_id"  # 你应该替换成该 Streamlit 应用的 ID
+    flask_server_url = "http://192.168.1.100:5000"  # 改成你的 Flask 服务器 IP
+    url = f"{flask_server_url}/api/apps/{appid}/update_access_time"
+    
+    try:
+        response = requests.post(url)
+        if response.status_code == 200:
+            st.success("访问时间已更新")
+        else:
+            st.warning("无法更新访问时间")
+    except Exception as e:
+        print(f"Failed to update access time: {e}")
 
-# 启动后台线程（daemon 模式）
-Thread(target=send_heartbeat, daemon=True).start()
+update_access_time()
+
 
 # 设置标题
 st.title("三次函数可视化工具")
