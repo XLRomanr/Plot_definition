@@ -22,7 +22,14 @@ def update_access_time():
     except Exception as e:
         print(f"Failed to update access time: {e}")
 
-update_access_time()
+# 后台线程定时调用更新访问时间
+def run_periodic_update():
+    while True:
+        update_access_time()
+        time.sleep(600)  # 每 10 分钟更新一次访问时间
+
+# 启动后台线程（守护线程）
+Thread(target=run_periodic_update, daemon=True).start()
 
 
 # 设置标题
