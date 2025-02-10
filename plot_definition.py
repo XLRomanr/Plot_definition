@@ -5,9 +5,6 @@ import requests
 import time
 from threading import Thread
 
-import requests
-import streamlit as st
-
 def update_access_time():
     appid = "Plot_definition"  # 你应该替换成该 Streamlit 应用的 ID
     flask_server_url = "http://11.2.171.248:5000"  # 改成你的 Flask 服务器 IP
